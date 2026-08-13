@@ -47,12 +47,18 @@ app.use(
   })
 );
 
-// Routes Setup
+// Standard API Routes Setup (/api/...)
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/products', require('./routes/productRoutes'));
 app.use('/api/orders', require('./routes/orderRoutes'));
 app.use('/api/custom-requests', require('./routes/customRequestRoutes'));
 app.use('/api/admin', require('./routes/statsRoutes'));
+
+// Route Aliases for Base Domain Requests (protects against missing /api prefix in VITE_API_URL)
+app.use('/auth', require('./routes/authRoutes'));
+app.use('/products', require('./routes/productRoutes'));
+app.use('/orders', require('./routes/orderRoutes'));
+app.use('/custom-requests', require('./routes/customRequestRoutes'));
 
 // Healthcheck Endpoint
 app.get('/', (req, res) => {

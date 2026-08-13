@@ -1,6 +1,11 @@
 import axios from 'axios';
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+// Smart URL resolution ensuring /api suffix is always handled correctly
+let rawUrl = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').trim().replace(/\/+$/, '');
+if (!rawUrl.endsWith('/api')) {
+  rawUrl = `${rawUrl}/api`;
+}
+const API_BASE = rawUrl;
 
 const api = axios.create({
   baseURL: API_BASE,
