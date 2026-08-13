@@ -1,0 +1,13 @@
+{
+  "name": "arya-blooms-monorepo",
+  "version": "1.0.0",
+  "description": "Arya's Petals - Handmade flower bouquet full-stack application monorepo",
+  "private": true,
+  "scripts": {
+    "dev:server": "npm --prefix server run dev",
+    "dev:client": "npm --prefix client run dev",
+    "dev:admin": "npm --prefix admin run dev",
+    "seed": "npm --prefix server run seed",
+    "create-admin": "npm --prefix server run create-admin"
+  }
+}
