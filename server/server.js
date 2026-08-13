@@ -16,8 +16,11 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// CORS configuration supporting dynamic frontends and Vercel deployments
+// Allowed Origins for CORS (Local Development + Deployed Vercel Frontends)
 const allowedOrigins = [
+  'https://aryas-petals.vercel.app',
+  'https://aryas-petals-c1og.vercel.app',
+  'http://aryas-petals-c1og.vercel.app',
   'http://localhost:5173',
   'http://localhost:5174',
   'http://127.0.0.1:5173',
@@ -29,7 +32,7 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: function (origin, callback) {
-      // Allow requests with no origin (mobile/curl/postman)
+      // Allow requests with no origin (mobile apps, curl, Postman)
       if (
         !origin ||
         allowedOrigins.includes(origin) ||
