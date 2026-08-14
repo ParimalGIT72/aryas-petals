@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Instagram, Heart } from 'lucide-react';
+import { Heart } from 'lucide-react';
 
 export default function Gallery() {
   const images = [
@@ -30,7 +30,7 @@ export default function Gallery() {
       tag: 'Minimal'
     },
     {
-      url: 'https://images.unsplash.com/photo-1494336934202-f068225f6a31?auto=format&fit=crop&q=80&w=800',
+      url: 'https://images.unsplash.com/photo-1563241527-3004b7be0ffd?auto=format&fit=crop&q=80&w=800',
       title: 'Rose Gold & Terracotta Bloom',
       tag: 'Custom Craft'
     }
@@ -65,6 +65,10 @@ export default function Gallery() {
               <img
                 src={item.url}
                 alt={item.title}
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&q=80&w=800';
+                }}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-charcoal-900/80 via-charcoal-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-6 flex flex-col justify-between text-white">

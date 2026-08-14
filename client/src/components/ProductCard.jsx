@@ -20,6 +20,10 @@ export default function ProductCard({ product, onSelectProduct }) {
         <img
           src={primaryImg}
           alt={product.name}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&q=80&w=800';
+          }}
           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
         />
 
