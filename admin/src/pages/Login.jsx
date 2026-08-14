@@ -109,13 +109,12 @@ export default function Login() {
           </button>
         </form>
 
-        {/* Demo Hint */}
-        <div className="mt-8 pt-6 border-t border-slate-100 text-center space-y-1 text-[11px] text-slate-400">
+        {/* Security Badge */}
+        <div className="mt-8 pt-6 border-t border-slate-100 text-center text-[11px] text-slate-400">
           <p className="flex items-center justify-center gap-1">
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-            Protected by JWT & Bcrypt Auth
+            Protected by JWT & Bcrypt Authentication
           </p>
-          <p>Default Seed Admin: <span className="font-mono text-slate-600 font-medium">admin@aryablooms.com</span> / <span className="font-mono text-slate-600 font-medium">admin123</span></p>
         </div>
 
       </div>

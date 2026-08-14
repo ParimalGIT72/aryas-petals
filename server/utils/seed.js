@@ -118,7 +118,7 @@ const seedDB = async () => {
 
     // Create Initial Admin Account
     const adminEmail = process.env.ADMIN_EMAIL || 'admin@aryablooms.com';
-    const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+    const adminPassword = process.env.ADMIN_PASSWORD || 'aryaisanidiot';
 
     const admin = await Admin.create({
       name: 'Arya (Owner)',

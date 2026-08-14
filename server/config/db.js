@@ -11,7 +11,7 @@ const connectDB = async () => {
     const adminCount = await Admin.countDocuments();
     if (adminCount === 0) {
       const email = (process.env.ADMIN_EMAIL || 'admin@aryablooms.com').toLowerCase();
-      const password = process.env.ADMIN_PASSWORD || 'admin123';
+      const password = process.env.ADMIN_PASSWORD || 'aryaisanidiot';
       await Admin.create({
         name: 'Arya (Owner)',
         email,
