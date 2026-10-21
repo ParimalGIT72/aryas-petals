@@ -1,158 +1,177 @@
-# Arya's Petals (Arya Blooms) — Full-Stack Application
+# Arya's Petals
 
-*Handmade blooms, made to last.*
+A full-stack flower-store web application with a customer-facing storefront and an administrative portal for store inventory and orders.
 
-A production-ready, full-stack web application monorepo for **Arya's Petals** handmade flower bouquet business.
+## Features
 
----
+- Separate customer and admin React applications
+- Node.js and Express REST API
+- MongoDB persistence through Mongoose
+- Admin authentication using bcrypt password hashing and JWT
+- Optional Cloudinary integration for image hosting
+- Environment-based configuration for database URI, secrets, and frontend API URLs
 
-## 🌟 Architecture Overview
+> Feature note: Confirm individual customer/cart/order capabilities against the current code before treating this list as a production feature checklist.
 
-The system is separated into three independent modules:
+## Technology stack
 
-1. **Customer Website** (`client/`) — React + Vite + Tailwind CSS + Framer Motion + Lucide React (`http://localhost:5173`)
-2. **Admin Panel** (`admin/`) — React + Vite + Tailwind CSS + Axios (`http://localhost:5174`)
-3. **Backend REST API** (`server/`) — Node.js + Express + MongoDB Atlas + Cloudinary SDK + JWT (`http://localhost:5000`)
+- **Frontend:** React, Vite, Tailwind CSS
+- **Backend:** Node.js, Express
+- **Database:** MongoDB with Mongoose
+- **Authentication:** bcryptjs and JSON Web Tokens
+- **Image hosting:** Cloudinary (optional)
+- **Development environment:** Windows, PowerShell, npm
 
----
-
-## 📁 Monorepo Structure
+## Project structure
 
 ```text
-aryablooms/
-│
-├── client/                     # Customer Frontend App (Port 5173)
-│   ├── src/
-│   │   ├── components/         # Hero, Navbar, ProductCard, ProductDetailModal, OrderModal, etc.
-│   │   ├── pages/              # Home, ProductsPage, CustomOrderPage
-│   │   ├── services/           # Axios REST API Client
-│   │   ├── index.css           # Ivory/Blush/Lavender/Sage Design System
-│   │   └── App.jsx
-│   └── package.json
-│
-├── admin/                      # Admin Panel Dashboard App (Port 5174)
-│   ├── src/
-│   │   ├── components/         # Tables, Modals, Forms
-│   │   ├── context/            # AuthContext (JWT Protected Routes)
-│   │   ├── layouts/            # Sidebar + Header Admin Layout
-│   │   ├── pages/              # Dashboard, ProductsList, AddProduct, EditProduct, Orders, CustomRequests, Settings
-│   │   ├── services/           # Admin Axios Client with Bearer Interceptor
-│   │   └── App.jsx
-│   └── package.json
-│
-├── server/                     # Express REST API Backend (Port 5000)
-│   ├── config/                 # Mongoose DB & Cloudinary Upload SDK Config
-│   ├── controllers/            # Product, Auth, Order, CustomRequest & Stats Controllers
-│   ├── middleware/             # Auth JWT Guard, Multer Memory Storage, Error Handler
-│   ├── models/                 # Product, Admin, Order, CustomRequest Schemas
-│   ├── routes/                 # API Routes (/api/products, /api/auth, /api/orders, /api/custom-requests)
-│   ├── utils/                  # DB Seed Script & Admin Creator Script
-│   ├── server.js
-│   └── package.json
-│
-└── README.md
+aryas-petals/
+├── server/       # Express API, Mongoose models, controllers, middleware
+├── client/       # Customer-facing React app
+└── admin/        # Admin portal React app
 ```
 
----
+## Prerequisites
 
-## 🚀 Quick Start Guide
+- Node.js and npm installed
+- A MongoDB Atlas cluster, or a local MongoDB Community Server
+- Git
+- A modern browser
 
-### 1. Install Dependencies
+## Environment configuration
 
-You can install dependencies inside each module:
+Create separate `.env` files in `server/`, `client/`, and `admin/`. Do not commit real environment files or share their contents.
 
-```bash
-# Server dependencies
-cd server
-npm install
+### `server/.env`
 
-# Client dependencies
-cd ../client
-npm install
-
-# Admin dependencies
-cd ../admin
-npm install
-```
-
-### 2. Configure Environment Variables
-
-Create `.env` inside `server/`, `client/`, and `admin/` using the provided `.env.example` templates.
-
-**`server/.env`**:
-```env
+```dotenv
 PORT=5000
+NODE_ENV=development
+MONGO_URI=mongodb+srv://<username>:<password>@<cluster-host>/arya_blooms?retryWrites=true&w=majority
+JWT_SECRET=<generate-a-unique-random-secret>
+ADMIN_EMAIL=<initial-admin-email>
+ADMIN_PASSWORD=<strong-unique-password>
+CLIENT_URL=http://localhost:5173
+ADMIN_URL=http://localhost:5174
+# Optional Cloudinary configuration:
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+```
+
+For a local MongoDB service, the URI can be:
+
+```dotenv
 MONGO_URI=mongodb://127.0.0.1:27017/arya_blooms
-JWT_SECRET=arya_blooms_secret_jwt_key_2026_production
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
 ```
 
-**`client/.env`**:
-```env
+Generate a JWT secret locally in PowerShell:
+
+```powershell
+node -e "console.log(require('crypto').randomBytes(32).toString('base64url'))"
+```
+
+Use the actual Atlas URI supplied by Atlas. URL-encode reserved characters in the username/password components when required. Never put real credentials in this README.
+
+### `client/.env` and `admin/.env`
+
+```dotenv
 VITE_API_URL=http://localhost:5000/api
 ```
 
-**`admin/.env`**:
-```env
-VITE_API_URL=http://localhost:5000/api
-```
+Vite exposes variables prefixed with `VITE_` to browser code. **Never put secrets in frontend environment variables.**
 
----
+## Install dependencies
 
-## 🌾 Seeding Database & Creating Admin
+Run the install command separately in each app directory:
 
-To populate MongoDB with initial products ("Midnight Web", "Lavender Love", "Blue Daisy", "Blush Garden") and create the initial admin user:
-
-```bash
-# From server directory
+```powershell
 cd server
-npm run seed
+npm.cmd install
+
+cd ..\client
+npm.cmd install
+
+cd ..\admin
+npm.cmd install
 ```
 
-Output:
-- **Admin Email**: `admin@aryablooms.com`
-- **Admin Password**: `admin123`
+## Run locally
 
-To create a custom admin user:
-```bash
-npm run create-admin
-```
+Open three separate PowerShell terminals.
 
----
+**Terminal 1 — API server**
 
-## 💻 Running Local Development Servers
-
-Start each server in separate terminal windows:
-
-### Terminal 1 — Backend API
-```bash
+```powershell
 cd server
-npm run dev
-# Running on http://localhost:5000
+npm.cmd run dev
 ```
 
-### Terminal 2 — Customer Website
-```bash
+The API is expected to listen on `http://localhost:5000`.
+
+**Terminal 2 — customer app**
+
+```powershell
 cd client
-npm run dev
-# Running on http://localhost:5173
+npm.cmd run dev
 ```
 
-### Terminal 3 — Admin Panel
-```bash
+Vite normally serves the customer app at `http://localhost:5173`.
+
+**Terminal 3 — admin portal**
+
+```powershell
 cd admin
-npm run dev
-# Running on http://localhost:5174
+npm.cmd run dev
 ```
 
----
+Vite normally serves the admin portal at `http://localhost:5174`.
 
-## 🛡️ Key Features
+Use the exact URLs printed by Vite if the ports differ.
 
-- **Dynamic MongoDB Catalog**: Product updates in Admin Panel immediately reflect on Customer Website via REST API.
-- **Cloudinary Image Management**: Supports uploading multiple high-res product photos, selecting primary cover images, and auto-deleting Cloudinary assets on product deletion. Includes graceful fallback mode.
-- **Admin Order & Custom Request System**: Admin can view customer orders and custom bouquet inquiries, toggle status (Pending → Confirmed → Preparing → Ready → Delivered), and contact clients directly.
-- **JWT & Bcrypt Security**: Passwords are securely hashed; admin endpoints are protected by standard Bearer JWT middleware.
-# aryas-petals
+## Admin account notes
+
+- The initial admin configuration is read from `ADMIN_EMAIL` and `ADMIN_PASSWORD` during account bootstrap.
+- Changing these environment variables does not automatically change an existing MongoDB admin document.
+- The project stores a password hash and verifies submitted passwords through the model's password-comparison method.
+- If you need to recover an existing admin account, use a controlled, local administrative reset procedure. Do not expose reset functionality publicly or commit temporary reset scripts.
+- Do not run the seed script against a database containing data unless you have verified its behavior and backed up data; the current project seed script may delete existing records before reseeding.
+
+## Troubleshooting
+
+### MongoDB connection refused at `127.0.0.1:27017`
+
+The backend is trying to use a local MongoDB service. Check `server/.env`, verify `MONGO_URI`, and confirm the intended database service is reachable. For Atlas, check the cluster URI and Network Access IP allowlist.
+
+### Admin login returns 401
+
+Confirm the email exists in the connected database and use the password associated with that account. `ADMIN_EMAIL` and `ADMIN_PASSWORD` are not guaranteed to overwrite an existing account.
+
+### Frontend returns HTTP 500
+
+Inspect the backend terminal first. Database connection failures can cause database-backed API operations to time out.
+
+### Tailwind/PostCSS plugin error
+
+The project was configured for Tailwind CSS 3. Keep the Tailwind/PostCSS versions and configuration compatible. Avoid running `npm audit fix --force` blindly; major upgrades can break Vite plugins and CSS configuration.
+
+### PowerShell blocks `npm.ps1`
+
+Use `npm.cmd` commands in PowerShell instead of changing the execution policy unnecessarily.
+
+## Security
+
+- `.env` files must remain untracked.
+- Keep `.env.example` files limited to variable names and safe placeholders.
+- Use a unique, strong `JWT_SECRET`; do not rely on hard-coded fallback secrets.
+- Use a least-privilege MongoDB database user and restrict Atlas Network Access to trusted IP addresses.
+- Do not commit credentials, tokens, connection strings, or admin passwords.
+- Review `npm audit` in each of `server/`, `client/`, and `admin/`, and test the application after dependency updates.
+
+## Validation status
+
+This README describes the repository setup based on the project configuration reviewed during development. A live production deployment, full end-to-end test suite, and current zero-vulnerability status are **not claimed** here. Run the app locally and verify the flows before release.
+
+## License
+
+Add the license applicable to this project before public distribution.
